@@ -1,0 +1,32 @@
+###############################################################################################
+Dependencies
+###############################################################################################
+
+- OS: Linux/Windows x86-64
+- Python 3.5 having the (non-standard packages):
+	- CPLEX 12.8 (Python API via IBM ILOG Optimization Suite)
+	- MOSEK for Python - 'conda install -c mosek mosek'
+	- cython, chompack, lxml, cvxopt=1.2, cvxpy=0.4.11 (version >=1.0 breaks current unchanged code) 
+	- numpy==1.14.2, scipy==1.1.0 (to get the same seed behaviour on scipy.stats.ortho_group/ the same random results)
+	Note any version change, particularly for numpy/scipy, will change numbers very slightly due to numerical sensitivity
+	e.g. final bounds +- <0.1% due to convergence tolerance used of 0.1%.
+- (optional) Matlab and 
+	- YALMIP + SeDuMi for running 'test_sedumi.m' for Table 2 	
+	- Coder + Neural/Deep Networks Toolbox for (re-)training neural nets used
+	
+** Python setup (performed):
+	- conda virtual environment 'py35':
+		cd <folder>
+		curl -O https://repo.continuum.io/archive/Anaconda3-2018.12-Linux-x86_64.sh
+		bash Anaconda3-2018.12-Linux-x86_64.sh
+			- yes to default <folder>/anaconda3 path and to prepend path to PATH
+		conda create -n py35_used python=3.5.6
+		conda activate py35_used
+		conda install -c mosek mosek (and added academic license file <folder>/mosek/mosek.lic)
+		conda install -c anaconda cvxopt
+		conda install -c sebp cvxpy=0.4.11
+		pip install --upgrade pip (or python -m pip install --upgrade pip)
+		pip install -r requirements.txt
+	- Installed CPLEX 12.8 locally in <folder>                          
+		cd <folder>/cplex/python/3.6/x86-64_linux/
+		python setup.py build -b <folder>/build/ install
